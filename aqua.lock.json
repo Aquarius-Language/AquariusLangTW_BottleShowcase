@@ -1,0 +1,27 @@
+{
+  "Format": 1,
+  "ManifestHash": "f3ee15a95d2ef19d08f325d2be8d342f292ea90c1a894eb1969507ad955c0c57",
+  "Direct": {
+    "bottle_greeting": "bottle_greeting/0.18.0"
+  },
+  "Packages": [
+    {
+      "Name": "bottle_greeting",
+      "Version": "0.18.0",
+      "Hash": "0289a11bd319007951bfd7b0471bb4a7c980ef905a542b5c861a0fa783a036e5",
+      "Source": "path:C:\\OfficialProjects\\AquariusLangTW_BottleShowcase\\libraries\\greeting\\aqua.toml",
+      "Dependencies": {
+        "bottle_numbers": "bottle_numbers/1.0.0"
+      },
+      "Key": "bottle_greeting/0.18.0"
+    },
+    {
+      "Name": "bottle_numbers",
+      "Version": "1.0.0",
+      "Hash": "89848fb87880b1802b46ac39d84edd2c6ced7ef07082f4affcb9963965bba9c6",
+      "Source": "path:C:\\OfficialProjects\\AquariusLangTW_BottleShowcase\\libraries\\greeting\\dependencies\\numbers\\aqua.toml",
+      "Dependencies": {},
+      "Key": "bottle_numbers/1.0.0"
+    }
+  ]
+}
