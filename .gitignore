@@ -1,2 +1,8 @@
 dist/
 .aqua/
+
+**/build/
+**/native/windows-*/
+**/native/linux-*/
+**/native/android-*/
+**/native/web/

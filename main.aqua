@@ -1,5 +1,6 @@
-變數 問候 = 匯入("/bottles/bottle_greeting/main.aqua");
-印出(問候.message());
-印出("20 + 22 =", 問候.answer());
-印出(問候.dynamicEcho("BOTTLE_DYNAMIC_LINK_OK / 動態函式庫快取成功"));
-印出("BOTTLE_SHOWCASE_OK / 第三方套件展示成功");
+var greeting = import("BottleGreeting");
+print(greeting.message());
+print("20 + 22 =", greeting.answer());
+print(greeting.dynamicEcho("BOTTLE_NATIVE_SDK_OK / 原生函式庫快取成功"));
+if (greeting.answer() != 42 || greeting.dynamicEcho("星泉") != "星泉") { return 1; }
+print("BOTTLE_SHOWCASE_OK / 第三方套件展示成功");

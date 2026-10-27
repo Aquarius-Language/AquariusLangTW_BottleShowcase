@@ -1,20 +1,23 @@
-manifest_version = 1
+manifest_version = 2
 
-[project]
+[library]
 name = "bottle_greeting"
-type = "library"
-version = "0.18.0"
-entry = "main.aqua"
-sources = ["main.aqua"]
+version = "0.19.0"
 platforms = ["windows", "linux", "web", "android"]
 license = "MIT"
-description = "A local library with text assets, a transitive dependency and a dynamic Wasm library."
+description = "A local source/native SDK library with assets and a transitive dependency."
+
+[native]
+name = "bottle_greeting"
+modules = ["BottleGreetingNative|問候原生"]
+source = "native"
+
+[[modules]]
+names = "BottleGreeting|套件問候"
+source = "main.aqua"
 
 [dependencies]
-bottle_numbers = { path = "dependencies/numbers/aqua.toml", version = ">= 1.0, < 2.0" }
+bottle_numbers = { path = "dependencies/numbers/aqua.toml", version = "1.1.0" }
 
 [[assets]]
 source = "assets"
-
-[[assets]]
-source = "native/showcase.wasm"

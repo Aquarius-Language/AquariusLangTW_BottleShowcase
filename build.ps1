@@ -1,27 +1,18 @@
-param([string]$Dotnet = '', [string]$Compiler = '', [ValidateSet('wasm', 'web', 'windows', 'linux', 'android')][string]$Target = 'wasm')
+param([string]$Aqua = 'aqua', [string]$Target = 'wasm', [string[]]$LibraryTargets = @('windows-x64','web','android-arm64-v8a','android-x86_64'))
 $ErrorActionPreference = 'Stop'
-if (-not $Dotnet) {
-    $local = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.dotnet/dotnet.exe'
-    $Dotnet = if (Test-Path -LiteralPath $local) { $local } else { 'dotnet' }
+function Invoke-Aqua([string[]]$Arguments) {
+    & $Aqua @Arguments
+    if ($LASTEXITCODE -ne 0) { throw "aqua failed ($LASTEXITCODE): $Arguments" }
 }
-if (-not $Compiler) {
-    $candidates = @(
-        (Join-Path $PSScriptRoot '../../AquariusCli/bin/Debug/net8.0/aqua.dll'),
-        (Join-Path $PSScriptRoot '../AquariusLangTW/AquariusCli/bin/Debug/net8.0/aqua.dll')
-    )
-    $Compiler = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-    if (-not $Compiler) { throw 'Build AquariusCli first, or pass -Compiler with an absolute path to aqua.dll.' }
-}
+Invoke-Aqua @('library','build',(Join-Path $PSScriptRoot 'libraries/greeting'),'--targets',($LibraryTargets -join ','))
+Invoke-Aqua @('bottle','update','--project',$PSScriptRoot,'--offline')
 $output = switch ($Target) {
     'wasm' { 'dist/showcase.wasm' }
     'windows' { 'dist/showcase.exe' }
     'linux' { 'dist/showcase' }
     'web' { 'dist/web' }
-    'android' { 'dist/android-project' }
+    'android' { 'dist/showcase.apk' }
+    default { throw "Unknown target: $Target" }
 }
-& $Dotnet $Compiler build $PSScriptRoot --target $Target -o (Join-Path $PSScriptRoot $output)
-if ($LASTEXITCODE -ne 0) { throw 'Bottle showcase build failed.' }
-if ($Target -eq 'wasm') {
-    & $Dotnet $Compiler run (Join-Path $PSScriptRoot $output)
-    if ($LASTEXITCODE -ne 0) { throw 'Bottle showcase execution failed.' }
-}
+Invoke-Aqua @('build',$PSScriptRoot,'--target',$Target,'-o',(Join-Path $PSScriptRoot $output))
+if ($Target -eq 'wasm') { Invoke-Aqua @('run',(Join-Path $PSScriptRoot $output)) }
